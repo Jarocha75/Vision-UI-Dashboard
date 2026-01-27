@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "test@example.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "b930",
+      "email": "jarocha75@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "d80f",
+      "email": "patkope@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "fb-1",
+      "email": "facebook.user1@example.com",
+      "provider": "facebook"
+}
+
+  ]
+}

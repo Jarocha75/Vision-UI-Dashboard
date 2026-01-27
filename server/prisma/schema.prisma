@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
+  password       String?
+  name           String?
+  avatar         String?
+  provider       String?         @default("local")
+  providerId     String?
+  phoneNumber    String?
+  userName       String?
+  displayName    String?
+  bio            String?         @db.Text
+  location       String?
+  website        String?
+  linkedin       String?
+  github         String?
+  whatsup        String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  dashboards     Dashboard[]
+  billings       Billing[]
+  refreshTokens  RefreshToken[]
+  transactions   Transaction[]
+  invoices       Invoice[]
+  paymentsMethod PaymentMethod[]
+
+  @@unique([provider, providerId])
+}
+
+model Dashboard {
+  id        Int      @id @default(autoincrement())
+  title     String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Billing {
+  id        Int      @id @default(autoincrement())
+  fullName  String
+  company   String
+  email     String
+  vatNumber String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  amount      Decimal  @db.Decimal(10, 2)
+  type        String // "income" | "expense"
+  category    String?
+  description String?  @db.Text
+  date        DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Invoice {
+  id            Int       @id @default(autoincrement())
+  invoiceNumber String
+  clientName    String
+  clientEmail   String?
+  amount        Decimal   @db.Decimal(10, 2)
+  status        String    @default("draft") // "draft" | "sent" | "paid" | "cancelled"
+  dueDate       DateTime?
+  description   String?   @db.Text
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model PaymentMethod {
+  id               Int     @id @default(autoincrement())
+  type             String // visa | mastercard
+  last4            String // "1234"
+  brand            String? // visa | mastercard (zo Stripe)
+  provider         String  @default("stripe")
+  providerMethodId String // Stripe payment_method id
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}

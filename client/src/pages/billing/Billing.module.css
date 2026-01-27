@@ -1,0 +1,74 @@
+.grid {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Mobile - Vertical stack */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+
+/* Tablet - 2 columns */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "card card"
+      "balance balance"
+      "invoices invoices"
+      "payment payment"
+      "billing billing"
+      "transactions transactions";
+    gap: 20px;
+  }
+
+  .creditCard {
+    grid-area: card;
+  }
+
+  .creditBalance {
+    grid-area: balance;
+  }
+
+  .invoices {
+    grid-area: invoices;
+  }
+
+  .paymentMethod {
+    grid-area: payment;
+  }
+
+  .billingInfo {
+    grid-area: billing;
+  }
+
+  .transactions {
+    grid-area: transactions;
+  }
+}
+
+
+/* Desktop - Full grid layout */
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: 4fr 3fr 5fr;
+    grid-template-areas:
+      "card balance invoices"
+      "payment payment invoices"
+      "billing billing transactions";
+    gap: 24px;
+  }
+}
+
+
+/* Large Desktop - Extra spacing */
+@media (min-width: 1440px) {
+  .grid {
+    gap: 28px;
+  }
+}
