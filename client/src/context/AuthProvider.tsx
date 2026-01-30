@@ -1,7 +1,7 @@
 import { getMe } from "@/services/auth";
 import { registerLogoutCallback } from "@/services/setupInterceptors";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import AuthContext from "./authContext";
 
 const TOKEN_KEY = "auth_token";
@@ -25,17 +25,17 @@ const AuthProvider = ({ children }: Props) => {
     retry: false,
   });
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     queryClient.setQueryData(["me"], null);
     queryClient.invalidateQueries({ queryKey: ["me"] });
-  };
+  }, [queryClient]);
 
   useEffect(() => {
     // Register logout callback with interceptor
     registerLogoutCallback(logout);
-  }, []);
+  }, [logout]);
 
   const login = (token: string, user: import("./authContext").User, refreshToken?: string) => {
     localStorage.setItem(TOKEN_KEY, token);

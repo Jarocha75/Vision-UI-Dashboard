@@ -32,12 +32,11 @@ declare global {
 
 export const useFacebookLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
+  const [isSDKLoaded, setIsSDKLoaded] = useState(() => !!window.FB);
 
   useEffect(() => {
-    // Load Facebook SDK
+    // SDK already loaded
     if (window.FB) {
-      setIsSDKLoaded(true);
       return;
     }
 

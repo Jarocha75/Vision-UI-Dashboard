@@ -17,6 +17,51 @@ interface Props {
   className?: string;
 }
 
+interface CardLogoProps {
+  cardType: "visa" | "mastercard";
+  textColor: string;
+}
+
+const CardLogo = ({ cardType, textColor }: CardLogoProps) => {
+  if (cardType === "visa") {
+    return (
+      <Box
+        sx={{
+          fontWeight: 900,
+          fontSize: { xs: 20, lg: 28 },
+          fontStyle: "italic",
+          color: textColor,
+          letterSpacing: 1,
+        }}
+      >
+        VISA
+      </Box>
+    );
+  }
+  return (
+    <Stack direction="row" spacing={-0.5}>
+      <Box
+        sx={{
+          width: { xs: 24, lg: 32 },
+          height: { xs: 24, lg: 32 },
+          borderRadius: "50%",
+          bgcolor: "rgb(235, 0, 27)",
+          opacity: 0.9,
+        }}
+      />
+      <Box
+        sx={{
+          width: { xs: 24, lg: 32 },
+          height: { xs: 24, lg: 32 },
+          borderRadius: "50%",
+          bgcolor: "rgb(255, 95, 0)",
+          opacity: 0.9,
+        }}
+      />
+    </Stack>
+  );
+};
+
 const CreditCard = ({
   title = "Vision UI",
   cardNumber = "7812 2139 0823 XXX",
@@ -26,46 +71,6 @@ const CreditCard = ({
   className,
 }: Props) => {
   const theme = useTheme();
-
-  const CardLogo = () => {
-    if (cardType === "visa") {
-      return (
-        <Box
-          sx={{
-            fontWeight: 900,
-            fontSize: { xs: 20, lg: 28 },
-            fontStyle: "italic",
-            color: theme.palette.text.primary,
-            letterSpacing: 1,
-          }}
-        >
-          VISA
-        </Box>
-      );
-    }
-    return (
-      <Stack direction="row" spacing={-0.5}>
-        <Box
-          sx={{
-            width: { xs: 24, lg: 32 },
-            height: { xs: 24, lg: 32 },
-            borderRadius: "50%",
-            bgcolor: "rgb(235, 0, 27)",
-            opacity: 0.9,
-          }}
-        />
-        <Box
-          sx={{
-            width: { xs: 24, lg: 32 },
-            height: { xs: 24, lg: 32 },
-            borderRadius: "50%",
-            bgcolor: "rgb(255, 95, 0)",
-            opacity: 0.9,
-          }}
-        />
-      </Stack>
-    );
-  };
 
   return (
     <Card
@@ -96,7 +101,7 @@ const CreditCard = ({
           <Typography sx={typographyStyles.cardTitle(theme)}>
             {title}
           </Typography>
-          <CardLogo />
+          <CardLogo cardType={cardType} textColor={theme.palette.text.primary} />
         </Stack>
 
         <Stack spacing={{ xs: 1, lg: 2 }}>

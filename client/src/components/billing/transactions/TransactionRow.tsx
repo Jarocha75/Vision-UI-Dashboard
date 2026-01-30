@@ -15,16 +15,21 @@ interface TransactionRowProps {
   onEditClick?: (transaction: Transaction) => void;
 }
 
-const getTransactionIcon = (type: TransactionType) => {
+interface TransactionIconProps {
+  type: TransactionType;
+  size: number;
+}
+
+const TransactionIcon = ({ type, size }: TransactionIconProps) => {
   switch (type) {
     case "charge":
-      return ArrowDown;
+      return <ArrowDown size={size} />;
     case "deposit":
-      return ArrowUp;
+      return <ArrowUp size={size} />;
     case "pending":
-      return Clock;
+      return <Clock size={size} />;
     default:
-      return Clock;
+      return <Clock size={size} />;
   }
 };
 
@@ -79,7 +84,6 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
 }) => {
   const theme = useTheme();
   const { name, ISO, amount, type } = transaction;
-  const Icon = getTransactionIcon(type);
   const colorScheme = getTransactionColor(type);
 
   return (
@@ -113,7 +117,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
               flexShrink: 0,
             }}
           >
-            <Icon size={18} />
+            <TransactionIcon type={type} size={18} />
           </Box>
           <Stack spacing={0.5}>
             <Typography

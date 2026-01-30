@@ -1,7 +1,12 @@
 import i18n from "@/i18n";
 import { uploadAvatar } from "@/services/useProfile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+
+interface ApiErrorResponse {
+  message?: string;
+}
 
 export const useUploadAvatar = () => {
   const queryClient = useQueryClient();
@@ -12,7 +17,7 @@ export const useUploadAvatar = () => {
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       toast.success(i18n.t("toast.profile.avatarUploadSuccess"));
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<ApiErrorResponse>) => {
       toast.error(
         error.response?.data?.message || i18n.t("toast.profile.avatarUploadError")
       );
