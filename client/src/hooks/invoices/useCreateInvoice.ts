@@ -1,3 +1,4 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import type { Invoice } from "@/types/invoices";
@@ -15,7 +16,8 @@ const useCreateInvoice = () => {
     Omit<Invoice, "id">,
     { previousInvoices: Invoice[] | undefined }
   >({
-    mutationFn: (data) => apiClient.post(data),
+    mutationFn: (data) =>
+      isDemoMode() ? mockApi.createInvoice(data) : apiClient.post(data),
     onMutate: async (data) => {
       await queryClient.cancelQueries({ queryKey: ["invoices"] });
 

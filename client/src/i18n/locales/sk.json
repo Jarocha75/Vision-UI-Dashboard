@@ -262,7 +262,9 @@
       "facebookSuccess": "Úspešne si sa prihlásil cez Facebook!",
       "facebookError": "Prihlásenie cez Facebook zlyhalo. Skús to znova.",
       "googleSuccess": "Úspešne si sa prihlásil cez Google!",
-      "googleError": "Prihlásenie cez Google zlyhalo. Skús to znova."
+      "googleError": "Prihlásenie cez Google zlyhalo. Skús to znova.",
+      "demoSuccess": "Vitaj v demo móde!",
+      "demoError": "Demo mód sa nepodarilo načítať. Skús to znova."
     },
     "billing": {
       "updateSuccess": "Billing bol úspešne aktualizovaný",
@@ -393,6 +395,9 @@
     "rememberMe": "Zapamätať si ma",
     "signingIn": "Prihlasujem...",
     "signIn": "Prihlásiť sa",
+    "or": "alebo",
+    "tryDemo": "Vyskúšať Demo",
+    "loadingDemo": "Načítavam Demo...",
     "noAccount": "Nemáš účet?",
     "signUp": "Registrovať sa"
   },

@@ -262,7 +262,9 @@
       "facebookSuccess": "You have signed in via Facebook successfully!",
       "facebookError": "Facebook sign in failed. Please try again.",
       "googleSuccess": "You have signed in via Google successfully!",
-      "googleError": "Google sign in failed. Please try again."
+      "googleError": "Google sign in failed. Please try again.",
+      "demoSuccess": "Welcome to demo mode!",
+      "demoError": "Demo mode failed to load. Please try again."
     },
     "billing": {
       "updateSuccess": "Billing was successfully updated",
@@ -393,6 +395,9 @@
     "rememberMe": "Remember me",
     "signingIn": "Signing In...",
     "signIn": "Sign In",
+    "or": "or",
+    "tryDemo": "Try Demo",
+    "loadingDemo": "Loading Demo...",
     "noAccount": "Don't have an account?",
     "signUp": "Sign Up"
   },

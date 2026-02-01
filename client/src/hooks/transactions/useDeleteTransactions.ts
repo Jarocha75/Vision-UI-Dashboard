@@ -1,8 +1,9 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import APIClient from "@/services/apiClient";
-import toast from "react-hot-toast";
 import type { Transaction } from "@/types/transactions";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const apiClient = new APIClient<Transaction>("/transactions");
 
@@ -10,7 +11,8 @@ const useDeleteTransaction = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => apiClient.delete(id),
+    mutationFn: (id: string) =>
+      isDemoMode() ? mockApi.deleteTransaction(id) : apiClient.delete(id),
     onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey: ["transactions"] });
 

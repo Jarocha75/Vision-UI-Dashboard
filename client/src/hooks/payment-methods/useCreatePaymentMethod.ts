@@ -1,3 +1,4 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import type {
@@ -13,7 +14,8 @@ const useCreatePaymentMethod = () => {
   const queryClient = useQueryClient();
 
   return useMutation<PaymentMethod, Error, CreatePaymentMethodPayload>({
-    mutationFn: (data) => apiClient.post(data),
+    mutationFn: (data) =>
+      isDemoMode() ? mockApi.createPaymentMethod(data) : apiClient.post(data),
 
     onSuccess: (newCard) => {
       queryClient.setQueryData<PaymentMethod[]>(["payment-method"], (old) =>

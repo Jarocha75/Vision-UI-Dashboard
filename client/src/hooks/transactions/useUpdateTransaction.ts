@@ -1,9 +1,10 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import type { Transaction } from "@/types/transactions";
+import type { TransactionFormData } from "@/validation/editTransaction";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import type { TransactionFormData } from "@/validation/editTransaction";
 
 const apiClient = new APIClient<Transaction>("/transactions");
 
@@ -22,7 +23,7 @@ const useUpdateTransaction = () => {
     { previousTransactions: Transaction[] | undefined }
   >({
     mutationFn: ({ id, data }: UpdateTransactionPayload) =>
-      apiClient.put(id, data),
+      isDemoMode() ? mockApi.updateTransaction(id, data) : apiClient.put(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ["transactions"] });
 

@@ -1,3 +1,4 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import type { PaymentMethod } from "@/types/paymentMethod";
@@ -20,7 +21,10 @@ const useUpdatePaymentMethod = () => {
     UpdatePaymentMethodPayload,
     { previousPaymentMethods: PaymentMethod[] | undefined }
   >({
-    mutationFn: ({ id, data }) => apiClient.put(id, data),
+    mutationFn: ({ id, data }) =>
+      isDemoMode()
+        ? mockApi.updatePaymentMethod(id, data)
+        : apiClient.put(id, data),
 
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ["payment-method"] });

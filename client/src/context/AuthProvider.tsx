@@ -1,3 +1,4 @@
+import { clearDemoData, disableDemoMode } from "@/demo";
 import { getMe } from "@/services/auth";
 import { registerLogoutCallback } from "@/services/setupInterceptors";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -28,6 +29,9 @@ const AuthProvider = ({ children }: Props) => {
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
+    // Clear demo mode data
+    disableDemoMode();
+    clearDemoData();
     queryClient.setQueryData(["me"], null);
     queryClient.invalidateQueries({ queryKey: ["me"] });
   }, [queryClient]);

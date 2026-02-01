@@ -1,7 +1,8 @@
-import i18n from "@/i18n";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import APIClient from "@/services/apiClient";
 import type { Billing } from "@/data/billingData";
+import { isDemoMode, mockApi } from "@/demo";
+import i18n from "@/i18n";
+import APIClient from "@/services/apiClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const apiClient = new APIClient<Billing>("/billings");
@@ -10,7 +11,8 @@ const useDeleteBilling = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => apiClient.delete(id),
+    mutationFn: (id: string) =>
+      isDemoMode() ? mockApi.deleteBilling(id) : apiClient.delete(id),
     onMutate: async (id: string) => {
       await queryClient.cancelQueries({ queryKey: ["billings"] });
 

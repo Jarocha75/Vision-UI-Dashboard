@@ -1,9 +1,10 @@
+import { isDemoMode, mockApi } from "@/demo";
 import type { AccountSettingsFormData } from "@/validation/accountSettings";
-import { api } from "./apiClient";
 import type { ProfileSettingsFormData } from "@/validation/profileSettings";
+import { api } from "./apiClient";
 
 export interface UserProfile {
-  id: number;
+  id: number | string;
   email: string;
   name: string;
   avatar?: string | null;
@@ -19,7 +20,10 @@ export interface UserProfile {
   whatsup?: string | null;
 }
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (): Promise<UserProfile> => {
+  if (isDemoMode()) {
+    return mockApi.getUserProfile() as Promise<UserProfile>;
+  }
   const { data } = await api.get<UserProfile>("/user/profile");
   return data;
 };
@@ -27,6 +31,9 @@ export const getUserProfile = async () => {
 export const updateUserProfile = async (
   profileData: AccountSettingsFormData
 ): Promise<UserProfile> => {
+  if (isDemoMode()) {
+    return mockApi.updateUserProfile(profileData) as Promise<UserProfile>;
+  }
   const { data } = await api.put<UserProfile>("/user/profile", profileData);
   return data;
 };
@@ -34,11 +41,20 @@ export const updateUserProfile = async (
 export const updateProfileSettings = async (
   profileData: ProfileSettingsFormData
 ): Promise<UserProfile> => {
+  if (isDemoMode()) {
+    return mockApi.updateUserProfile(profileData) as Promise<UserProfile>;
+  }
   const { data } = await api.put<UserProfile>("/user/profile", profileData);
   return data;
 };
 
 export const uploadAvatar = async (file: File): Promise<UserProfile> => {
+  if (isDemoMode()) {
+    const result = await mockApi.uploadAvatar(file);
+    const profile = await mockApi.getUserProfile();
+    return { ...profile, avatar: result.avatar } as UserProfile;
+  }
+
   const formData = new FormData();
   formData.append("avatar", file);
 

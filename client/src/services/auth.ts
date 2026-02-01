@@ -1,5 +1,11 @@
-import { api } from "@/services/apiClient";
 import { type User } from "@/context/authContext";
+import {
+  demoUser,
+  getDemoToken,
+  isDemoMode,
+  isDemoToken,
+} from "@/demo";
+import { api } from "@/services/apiClient";
 
 export interface LoginResponse {
   accessToken: string;
@@ -19,7 +25,25 @@ export const loginRequest = async (
   return data;
 };
 
+export const demoLoginRequest = async (): Promise<LoginResponse> => {
+  // Simulate network delay
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  return {
+    accessToken: getDemoToken(),
+    refreshToken: "demo_refresh_token",
+    user: demoUser,
+  };
+};
+
 export const getMe = async (): Promise<User> => {
+  // Check if we're in demo mode
+  const token = localStorage.getItem("auth_token");
+  if (isDemoMode() || isDemoToken(token)) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    return demoUser;
+  }
+
   const { data } = await api.get<User>("/auth/me");
   return data;
 };

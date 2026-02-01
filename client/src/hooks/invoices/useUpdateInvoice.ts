@@ -1,8 +1,9 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
+import type { Invoice } from "@/types/invoices";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import type { Invoice } from "@/types/invoices";
 
 const apiClient = new APIClient<Invoice>("/invoices");
 
@@ -20,7 +21,8 @@ const useUpdateInvoice = () => {
     UpdateInvoicePayload,
     { previousInvoices: Invoice[] | undefined }
   >({
-    mutationFn: ({ id, data }: UpdateInvoicePayload) => apiClient.put(id, data),
+    mutationFn: ({ id, data }: UpdateInvoicePayload) =>
+      isDemoMode() ? mockApi.updateInvoice(id, data) : apiClient.put(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ["invoices"] });
 

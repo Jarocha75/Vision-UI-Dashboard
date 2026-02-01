@@ -1,5 +1,6 @@
-import APIClient from "../../services/apiClient";
 import { useAuth } from "@/context/useAuth";
+import { isDemoMode, mockApi } from "@/demo";
+import APIClient from "@/services/apiClient";
 import type { Invoice } from "@/types/invoices";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +11,7 @@ const useInvoices = () => {
 
   return useQuery({
     queryKey: ["invoices"],
-    queryFn: () => apiClient.getAll(),
+    queryFn: () => (isDemoMode() ? mockApi.getInvoices() : apiClient.getAll()),
     staleTime: 5 * 60 * 1000,
     enabled: isAuthenticated,
   });

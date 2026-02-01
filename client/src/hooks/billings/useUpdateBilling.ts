@@ -1,5 +1,6 @@
-import i18n from "@/i18n";
 import type { Billing } from "@/data/billingData";
+import { isDemoMode, mockApi } from "@/demo";
+import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -20,7 +21,8 @@ const useUpdateBilling = () => {
     UpdateBillingPayload,
     { previousBillings: Billing[] | undefined }
   >({
-    mutationFn: ({ id, data }: UpdateBillingPayload) => apiClient.put(id, data),
+    mutationFn: ({ id, data }: UpdateBillingPayload) =>
+      isDemoMode() ? mockApi.updateBilling(id, data) : apiClient.put(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ["billings"] });
 

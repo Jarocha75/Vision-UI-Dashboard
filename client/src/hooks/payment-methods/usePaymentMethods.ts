@@ -1,5 +1,6 @@
-import APIClient from "../../services/apiClient";
 import { useAuth } from "@/context/useAuth";
+import { isDemoMode, mockApi } from "@/demo";
+import APIClient from "@/services/apiClient";
 import type { PaymentMethod } from "@/types/paymentMethod";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +11,8 @@ const usePaymentMethods = () => {
 
   return useQuery({
     queryKey: ["payment-method"],
-    queryFn: () => apiClient.getAll(),
+    queryFn: () =>
+      isDemoMode() ? mockApi.getPaymentMethods() : apiClient.getAll(),
     staleTime: 5 * 60 * 1000,
     enabled: isAuthenticated,
   });

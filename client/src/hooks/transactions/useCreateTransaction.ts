@@ -1,3 +1,4 @@
+import { isDemoMode, mockApi } from "@/demo";
 import i18n from "@/i18n";
 import APIClient from "@/services/apiClient";
 import type { Transaction } from "@/types/transactions";
@@ -15,7 +16,8 @@ const useCreateTransaction = () => {
     Omit<Transaction, "id">,
     { previousTransactions: Transaction[] | undefined }
   >({
-    mutationFn: (data) => apiClient.post(data),
+    mutationFn: (data) =>
+      isDemoMode() ? mockApi.createTransaction(data) : apiClient.post(data),
     onMutate: async (data) => {
       await queryClient.cancelQueries({ queryKey: ["transactions"] });
 
