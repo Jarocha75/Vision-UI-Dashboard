@@ -72,18 +72,19 @@ const ActiveUsersCard = () => {
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent={"space-between"}
-          spacing={{ xs: 2, sm: 4 }}
-          flexWrap="wrap"
+          spacing={{ xs: 2, sm: 2 }}
         >
           <Stack
             justifyContent="flex-start"
             sx={{
+              flex: { sm: 1 },
+              minWidth: 0,
               width: { xs: "100%", sm: "auto" },
             }}
           >
             <Stack direction={"row"} spacing={1} alignItems="center">
               <WalletMinimal size={25} color={theme.palette.text.primary} />
-              <Typography sx={labelStyle}>{t("activeUsersCard.users")}</Typography>
+              <Typography noWrap sx={labelStyle}>{t("activeUsersCard.users")}</Typography>
             </Stack>
 
             <Stack spacing={1} alignItems="flex-start">
@@ -97,12 +98,14 @@ const ActiveUsersCard = () => {
           <Stack
             spacing={1}
             sx={{
+              flex: { sm: 1 },
+              minWidth: 0,
               width: { xs: "100%", sm: "auto" },
             }}
           >
             <Stack direction={"row"} spacing={1}>
               <Rocket size={25} color={theme.palette.text.primary} />
-              <Typography sx={labelStyle}>{t("activeUsersCard.clicks")}</Typography>
+              <Typography noWrap sx={labelStyle}>{t("activeUsersCard.clicks")}</Typography>
             </Stack>
 
             <Stack spacing={1} alignItems="flex-start">
@@ -116,12 +119,14 @@ const ActiveUsersCard = () => {
           <Stack
             spacing={1}
             sx={{
+              flex: { sm: 1 },
+              minWidth: 0,
               width: { xs: "100%", sm: "auto" },
             }}
           >
             <Stack direction={"row"} spacing={1}>
               <ShoppingCart size={25} color={theme.palette.text.primary} />
-              <Typography sx={labelStyle}>{t("activeUsersCard.sales")}</Typography>
+              <Typography noWrap sx={labelStyle}>{t("activeUsersCard.sales")}</Typography>
             </Stack>
 
             <Stack spacing={1} alignItems="flex-start">
@@ -135,12 +140,14 @@ const ActiveUsersCard = () => {
           <Stack
             spacing={1}
             sx={{
+              flex: { sm: 1 },
+              minWidth: 0,
               width: { xs: "100%", sm: "auto" },
             }}
           >
             <Stack direction={"row"} spacing={1}>
               <Wrench size={25} color={theme.palette.text.primary} />
-              <Typography sx={labelStyle}>{t("activeUsersCard.items")}</Typography>
+              <Typography noWrap sx={labelStyle}>{t("activeUsersCard.items")}</Typography>
             </Stack>
 
             <Stack spacing={1} alignItems="flex-start">

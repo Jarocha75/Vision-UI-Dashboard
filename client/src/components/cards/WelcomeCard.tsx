@@ -9,14 +9,16 @@ import {
   spacing,
   typographyStyles,
 } from "@/styles/commonStyles";
+import { useAuth } from "@/context/useAuth";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { useTranslation } from "react-i18next";
 
 
 const WelcomeCard = () => {
   const theme = useTheme();
+  const { user } = useAuth();
   const { data: profile } = useUserProfile();
-  const name = profile?.name || profile?.displayName || "User";
+  const name = user?.name || profile?.name || profile?.displayName || "User";
   const { t } = useTranslation();
 
   return (
